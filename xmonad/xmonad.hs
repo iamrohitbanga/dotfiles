@@ -14,7 +14,6 @@ import XMonad.Layout.Decoration
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
-import XMonad.Layout.ThreeColumns
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Layout.IM
@@ -27,14 +26,14 @@ import qualified Data.Map        as M
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
 --
-myTerminal = "/usr/bin/xfce4-terminal"
+myTerminal = "/usr/bin/xterm"
 
 
 ------------------------------------------------------------------------
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["1:chat","2:web"] ++ map show [3..9]
+myWorkspaces = ["1:home", "2:quick", "3:work", "4:build", "5","6", "7", "8", "9:social", "0:extra"]
 
 
 ------------------------------------------------------------------------
@@ -76,14 +75,13 @@ myManageHook = composeAll
 --
 -- The available layouts.  Note that each layout is separated by |||,
 -- which denotes layout choice.
+-- A beginners guide here: https://betweentwocommits.com/blog/xmonad-layouts-guide
 --
 myLayout = avoidStruts (
-    ThreeColMid 1 (3/100) (1/2) |||
-    GridRatio (3/2) |||
-    Grid |||
-    ThreeCol 1 (3/100) (1/3) |||
     Tall 1 (3/100) (1/2) |||
     tabbed shrinkText tabConfig |||
+    GridRatio (3/2) |||
+    Grid |||
     noBorders (fullscreenFull Full))
 
 
