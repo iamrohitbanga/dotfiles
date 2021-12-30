@@ -20,8 +20,12 @@ import XMonad.Util.SpawnOnce
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Layout.IM
 import XMonad.Layout.Grid
+import XMonad.Util.NamedWindows (getName)
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+import Control.Monad (join)
+import Data.List (sortBy)
+import Data.Function (on)
 
 -- PolyBar config based on https://github.com/boylemic/configs/blob/master/xmonad/xmonad.hs.polybar
 -- https://www.youtube.com/watch?v=d1KWL2MKXZw
@@ -53,7 +57,19 @@ white     = "#eeeeee"
 -- Workspaces
 -- The default number of workspaces (virtual screens) and their names.
 --
-myWorkspaces = ["1:home", "2:quick", "3:work", "4:build", "5","6", "7", "8", "9:social", "0:extra"]
+-- myWorkspaces = ["1:home", "2:quick", "3:work", "4:build", "5","6", "7", "8", "9:social", "0:extra"]
+
+xmobarEscape = concatMap doubleLts
+  where doubleLts '<' = "<<"
+        doubleLts x    = [x]
+
+myWorkspaces            :: [String]
+myWorkspaces            = clickable . (map xmobarEscape) $ ["1:\xf269","2:\xf120","3:\xf0e0", "4:\xf07c","5:\xf1b6","6:\xf281","7:\xf04b","8:\xf167","9"]
+
+  where
+         clickable l = [ "<action=xdotool key super+" ++ show (n) ++ ">" ++ ws ++ "</action>" |
+                             (i,ws) <- zip [1..9] l,
+                            let n = i ]
 
 
 ------------------------------------------------------------------------
@@ -363,6 +379,27 @@ main = do
         [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
 
     xmonad $ewmh $ docks $ defaults { logHook = dynamicLogWithPP (myLogHook dbus) }
+
+
+
+-- launcherHook :: ManageHook
+-- launcherHook = resource =? launcherString --> doIgnore
+
+eventLogHookForPolyBar = do
+    winset <- gets windowset
+    title <- maybe (return "") (fmap show . getName) . W.peek $ winset
+    let currWs = W.currentTag winset
+    let wss = map W.tag $ W.workspaces winset
+    
+    io $ appendFile "/tmp/.xmonad-title-log" (title ++ "\n")
+    io $ appendFile "/tmp/.xmonad-workspace-log" (wsStr currWs wss ++ "\n")
+    
+    where
+      fmt currWs ws
+            | currWs == ws = "[" ++ ws ++ "]"
+            | otherwise    = " " ++ ws ++ " "
+      wsStr currWs wss = join $ map (fmt currWs) $ sortBy (compare `on` (!! 0)) wss
+
 
 
 -- Override the PP values as you would otherwise, adding colors etc depending
