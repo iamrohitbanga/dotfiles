@@ -40,7 +40,7 @@ import XMonad.Layout.ToggleLayouts          -- Full window at any time
 import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.Mosaic
 import XMonad.Layout.ThreeColumns
-myTerminal = "urxvt"
+myTerminal = "/usr/bin/xterm"
 -- Colours
 gray      = "#7F7F7F"
 gray2     = "#222222"
@@ -191,49 +191,49 @@ myStartupHook = do
   spawnOnce "volumeicon"
   setWMName "LG3D"
 --  spawnOnce "dropbox"
-  spawn "compton -b"
-  spawnOnce "redshift-gtk"
+  -- spawn "compton -b"
+  -- spawnOnce "redshift-gtk"
 
-myScratchPads = [ NS "terminal" spawnTerm  findTerm manageTerm
-                , NS "music" spawnPav findPav  managePav
-                ]
-        where
-
-    spawnTerm = myTerminal ++  " -name scratchpad -e cmus"
-    findTerm = resource =? "scratchpad"
-    manageTerm = customFloating $ W.RationalRect l t w h -- and I'd like it fixed using the geometry below
-
-       where
-
-        -- reusing these variables is ok since they're confined to their own 
-        -- where clauses 
-        h = 1       -- height, 10% 
-        w = 1         -- width, 100%
-        t = 1 - h     -- bottom edge
-        l = 1 -w -- centered left/right
-    spawnPav = "spotify"
-    findPav = className =? "Spotify"
-    managePav = customFloating $ W.RationalRect l t w h -- and I'd like it fixed using the geometry below
-
-        where
-
-        -- reusing these variables is ok since they're confined to their own 
-        -- where clauses 
-        h = 1      -- height, 10% 
-        w = 1         -- width, 100%
-        t = 1 -h      -- bottom edge
-        l = 1 -w -- centered left/right
- 
-myManageHook = composeAll
-    [ className =? "stalonetray"    --> doIgnore
-    --  , className =? "Steam"        --> doFullFloat
-      , className =? "Firefox"      --> doFullFloat
-      , title =? "FEZ"              --> doFullFloat
-      , title =? "Don't Starve"     --> doFullFloat
---      , className =? "mpv"          --> doFullFloat
-      , manageDocks
-      , isFullscreen                --> (doF W.focusDown <+> doFullFloat)
-    ] <+> namedScratchpadManageHook myScratchPads
+-- myScratchPads = [ NS "terminal" spawnTerm  findTerm manageTerm
+--                 , NS "music" spawnPav findPav  managePav
+--                 ]
+--         where
+-- 
+--     spawnTerm = myTerminal ++  " -name scratchpad -e cmus"
+--     findTerm = resource =? "scratchpad"
+--     manageTerm = customFloating $ W.RationalRect l t w h -- and I'd like it fixed using the geometry below
+-- 
+--        where
+-- 
+--         -- reusing these variables is ok since they're confined to their own 
+--         -- where clauses 
+--         h = 1       -- height, 10% 
+--         w = 1         -- width, 100%
+--         t = 1 - h     -- bottom edge
+--         l = 1 -w -- centered left/right
+--     spawnPav = "spotify"
+--     findPav = className =? "Spotify"
+--     managePav = customFloating $ W.RationalRect l t w h -- and I'd like it fixed using the geometry below
+-- 
+--         where
+-- 
+--         -- reusing these variables is ok since they're confined to their own 
+--         -- where clauses 
+--         h = 1      -- height, 10% 
+--         w = 1         -- width, 100%
+--         t = 1 -h      -- bottom edge
+--         l = 1 -w -- centered left/right
+--  
+-- myManageHook = composeAll
+--     [ className =? "stalonetray"    --> doIgnore
+--     --  , className =? "Steam"        --> doFullFloat
+--       , className =? "Firefox"      --> doFullFloat
+--       , title =? "FEZ"              --> doFullFloat
+--       , title =? "Don't Starve"     --> doFullFloat
+-- --      , className =? "mpv"          --> doFullFloat
+--       , manageDocks
+--       , isFullscreen                --> (doF W.focusDown <+> doFullFloat)
+--     ] <+> namedScratchpadManageHook myScratchPads
 
 -- Mouse bindings
  
