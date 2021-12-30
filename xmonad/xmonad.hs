@@ -7,6 +7,7 @@ import System.Exit
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
 import XMonad.Layout.Fullscreen
@@ -15,11 +16,21 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
 import XMonad.Layout.Tabbed
 import XMonad.Util.Run(spawnPipe)
+import XMonad.Util.SpawnOnce
 import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Layout.IM
 import XMonad.Layout.Grid
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+
+-- PolyBar config based on https://github.com/boylemic/configs/blob/master/xmonad/xmonad.hs.polybar
+-- https://www.youtube.com/watch?v=d1KWL2MKXZw
+-- Requires installation of xmonad-log https://github.com/xintron/xmonad-log/releases
+-- And corresponding polybar config files from https://github.com/boylemic/configs/tree/master/xmonad/polybar
+-- Copy polybar configs to ~/.config/polybar/
+import qualified DBus as D
+import qualified DBus.Client as D
+import qualified Codec.Binary.UTF8.String as UTF8
 
 ------------------------------------------------------------------------
 -- Terminal
@@ -27,8 +38,16 @@ import qualified Data.Map        as M
 -- certain contrib modules.
 --
 -- myTerminal = "/usr/bin/xterm"
-myTerminal = "~/.cargo/bin/alacritty"
+-- myTerminal = "~/.cargo/bin/alacritty"
+myTerminal = "~/.local/kitty.app/bin/kitty"
 
+
+-- Colors
+gray      = "#7F7F7F"
+gray2     = "#222222"
+red       = "#900000"
+blue      = "#2E9AFE"
+white     = "#eeeeee"
 
 ------------------------------------------------------------------------
 -- Workspaces
@@ -151,6 +170,8 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- That is, take a screenshot of everything you see.
   , ((modMask .|. controlMask .|. shiftMask, xK_p),
      spawn "screenshot")
+
+  , ((modMask, xK_y), spawn $ "polybar-msg cmd toggle" )
 
   -- Mute volume.
   , ((0, 0x1008FF12),
@@ -322,25 +343,61 @@ myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
 -- with mod-q.  Used by, e.g., XMonad.Layout.PerWorkspace to initialize
 -- per-workspace layout choices.
 --
--- By default, do nothing.
-myStartupHook = return ()
-
+myStartupHook = do
+    spawn "~/.config/polybar/launch.sh"
+    spawnOnce "nm-applet"
+    spawnOnce "volumeicon"
+    setWMName "LG3D"
+    spawn "compton -b"
+    spawnOnce "redshift-gtk"
 
 ------------------------------------------------------------------------
 -- Run xmonad with all the defaults we set up.
 --
+main :: IO ()
 main = do
-  xmproc <- spawnPipe "/usr/bin/xmobar ~/.xmonad/xmobar.hs"
-  xmonad $ defaults {
-      logHook = dynamicLogWithPP $ xmobarPP {
-            ppOutput = hPutStrLn xmproc
-          , ppTitle = xmobarColor xmobarTitleColor "" . shorten 100
-          , ppCurrent = xmobarColor xmobarCurrentWorkspaceColor ""
-          , ppSep = "   "}
-      , handleEventHook = docksEventHook
-      , manageHook = manageDocks <+> myManageHook
-      , startupHook = setWMName "LG3D"
-  }
+
+    dbus <- D.connectSession
+    -- Request access to the DBus name
+    D.requestName dbus (D.busName_ "org.xmonad.Log")
+        [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
+
+    xmonad $ewmh $ docks $ defaults { logHook = dynamicLogWithPP (myLogHook dbus) }
+
+
+-- Override the PP values as you would otherwise, adding colors etc depending
+-- on  the statusbar used
+myLogHook :: D.Client -> PP
+myLogHook dbus = def
+    { ppOutput = dbusOutput dbus
+    , ppCurrent = wrap ("%{F" ++ blue ++ "} ") " %{F-}"
+    , ppVisible = wrap ("%{F" ++ gray ++ "} ") " %{F-}"
+    , ppUrgent = wrap ("%{F" ++ red ++ "} ") " %{F-}"
+    , ppHidden = wrap ("%{F" ++ gray ++ "} ") " %{F-}"
+    , ppTitle = wrap ("%{F" ++ gray2 ++ "} ") " %{F-}"
+    }
+-- Emit a DBus signal on log updates
+dbusOutput :: D.Client -> String -> IO ()
+dbusOutput dbus str = do
+    let signal = (D.signal objectPath interfaceName memberName) {
+            D.signalBody = [D.toVariant $ UTF8.decodeString str]
+        }
+    D.emit dbus signal
+  where
+    objectPath = D.objectPath_ "/org/xmonad/Log"
+    interfaceName = D.interfaceName_ "org.xmonad.Log"
+    memberName = D.memberName_ "Update"
+
+--     dbus <- D.connectSession
+--     D.requestName dbus (D.busName_ "org.xmonad.Log")
+--         [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
+-- 
+--     -- xmproc <- spawnPipe "/usr/bin/xmobar ~/.xmonad/xmobar.hs"
+--     xmonad . ewmh $ defaults {
+--           handleEventHook = docksEventHook
+--         , manageHook = manageDocks <+> myManageHook
+--         , startupHook = setWMName "LG3D"
+--     }
 
 
 ------------------------------------------------------------------------
