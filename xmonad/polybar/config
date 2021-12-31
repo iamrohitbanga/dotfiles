@@ -76,8 +76,8 @@ font-4 = "Noto Sans Symbols2:style=Regular:pixelsize=12;1"
 ;font-1 = "Noto Color Emoji:Style=Regular:pixelsize=2;1"
 ;font-1 = "Symbola:Style=Regular:pixelsize=12;1"
 modules-left = xmonad xwindow
-modules-center = date
-modules-right = pulseaudio-control powermenu cpu memory xkeyboard battery temperature
+modules-center =
+modules-right = pulseaudio-control powermenu cpu memory xkeyboard battery temperature date
 
 tray-position = right
 tray-padding = 2
@@ -546,11 +546,11 @@ expand-right = true
 
 format-spacing = 1
 
-label-open = 
+label-open = ""
 label-open-foreground = ${colors.secondary}
-label-close =  cancel
+label-close = " cancel"
 label-close-foreground = ${colors.secondary}
-label-separator = |
+label-separator = "|"
 label-separator-foreground = ${colors.foreground-alt}
 
 menu-0-0 = reboot
