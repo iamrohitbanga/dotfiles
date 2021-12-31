@@ -58,9 +58,9 @@ font-0 = misc fixed:pixelsize=12;1
 ;font-1 = unifont:fontformat=truetype:size=12:antialias=false;0
 ;font-2 = siji:pixelsize=12;1
 font-1 = "FontAwesome:size=12;1"
-modules-left = xmonad
+modules-left = xmonad xwindow
 modules-center = date
-modules-right = xbacklight pulseaudio-control cpu memory xkeyboard battery temperature wlan eth1
+modules-right = pulseaudio-control cpu memory xkeyboard battery temperature wlan eth1 powermenu
 
 tray-position = right
 tray-padding = 2
