@@ -364,8 +364,8 @@ myStartupHook = do
     spawnOnce "nm-applet"
     spawnOnce "volumeicon"
     setWMName "LG3D"
-    spawn "compton -b"
-    spawnOnce "redshift-gtk"
+    -- spawn "compton -b"
+    -- spawnOnce "redshift-gtk"
 
 ------------------------------------------------------------------------
 -- Run xmonad with all the defaults we set up.
