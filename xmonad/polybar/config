@@ -60,7 +60,7 @@ font-0 = misc fixed:pixelsize=12;1
 font-1 = "FontAwesome:size=12;1"
 modules-left = xmonad
 modules-center = 
-modules-right = xbacklight pulseaudio pulseaudio-control cpu xkeyboard battery temperature date
+modules-right = xbacklight pulseaudio-control cpu xkeyboard battery temperature date
 
 tray-position = right
 tray-padding = 2
