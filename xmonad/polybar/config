@@ -285,21 +285,36 @@ card = intel_backlight
 ;;label-disconnected = %ifname% disconnected
 ;;label-disconnected-foreground = ${colors.foreground-alt}
 ;
-;[module/date]
-;type = internal/date
-;interval = 5
-;
-;date = "%Y-%m-%d"
-;date-alt = " %Y-%m-%d"
-;
-;time = %H:%M
-;time-alt = %H:%M
-;
-;format-prefix = 
-;format-prefix-foreground = ${colors.foreground-alt}
-;format-underline = #0a6cf5
-;
-;label = %date% %time%
+
+[module/date]
+; https://github.com/polybar/polybar/wiki/Module%3A-date
+type = internal/date
+; update every 5 seconds
+interval = 1
+
+date = "%Y-%m-%d"
+date-alt = " %Y-%m-%d"
+
+; toggle between showing seconds, and not
+time = %H:%M
+time-alt = %H:%M:%S
+
+format = 🕓 <label>
+; format-background = #55ff3399
+; format-foreground = #ffffffff
+
+format-prefix = 🕓
+format-prefix-foreground = #FFFFFF
+format-underline = #0a6cf5
+
+
+; Available tokens:
+;   %date%
+;   %time%
+; Default: %date%
+label = %date% %time%
+label-font = 3
+;label-foreground = #FFFFFF
 
 [module/pulseaudio]
 type = internal/pulseaudio
