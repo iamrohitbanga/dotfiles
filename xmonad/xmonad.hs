@@ -363,6 +363,7 @@ myStartupHook = do
     spawn "~/.config/polybar/launch.sh"
     spawnOnce "nm-applet"
     spawnOnce "volumeicon"
+    spawnOnce "dunst"
     setWMName "LG3D"
     -- spawn "compton -b"
     -- spawnOnce "redshift-gtk"
