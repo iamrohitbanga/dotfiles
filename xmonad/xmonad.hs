@@ -171,10 +171,17 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask .|. controlMask, xK_l),
      spawn "i3lock -c 000000")
 
-  -- Launch dmenu via yeganesh.
   -- Use this to launch programs without a key binding.
   , ((modMask, xK_p),
-     spawn "exe=`dmenu_run | yeganesh` && eval \"exec $exe\"")
+     spawn $ "rofi -show run -fullscreen -theme /usr/share/rofi/themes/Paper.rasi")
+
+  -- Use this to switch windows
+  , ((modMask, xK_w),
+     spawn $ "rofi -show window -theme /usr/share/rofi/themes/Paper.rasi")
+
+  -- Use this to open file explorer
+  , ((mod4Mask, xK_e),
+     spawn $ "nautilus --no-desktop --browser")
 
   -- Take a screenshot in select mode.
   -- After pressing this key binding, click a window, or draw a rectangle with
