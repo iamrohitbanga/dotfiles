@@ -77,7 +77,7 @@ font-4 = "Noto Sans Symbols2:style=Regular:pixelsize=12;1"
 ;font-1 = "Symbola:Style=Regular:pixelsize=12;1"
 modules-left = xmonad xwindow
 modules-center = date
-modules-right = pulseaudio-control cpu memory xkeyboard battery temperature wlan eth1 powermenu
+modules-right = pulseaudio-control powermenu cpu memory xkeyboard battery temperature
 
 tray-position = right
 tray-padding = 2
