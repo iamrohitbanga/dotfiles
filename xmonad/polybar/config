@@ -61,7 +61,7 @@ padding-left = 0
 padding-right = 0
 
 
-module-margin-left = 1
+module-margin-left = 2
 module-margin-right = 1
 
 font-0 = misc fixed:pixelsize=12;1
@@ -76,8 +76,8 @@ font-4 = "Noto Sans Symbols2:style=Regular:pixelsize=12;1"
 ;font-1 = "Noto Color Emoji:Style=Regular:pixelsize=2;1"
 ;font-1 = "Symbola:Style=Regular:pixelsize=12;1"
 modules-left = xmonad xwindow
-modules-center =
-modules-right = pulseaudio-control powermenu cpu memory xkeyboard battery temperature date
+modules-center = cpu memory
+modules-right = pulseaudio-control powermenu xkeyboard battery temperature date
 
 tray-position = right
 tray-padding = 2
