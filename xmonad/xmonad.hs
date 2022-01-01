@@ -171,7 +171,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
   -- Lock the screen using xscreensaver.
   , ((modMask .|. controlMask, xK_l),
-     spawn "i3lock -c 000000")
+     spawn "xscreensaver-command -lock")
 
   -- Use this to launch programs without a key binding.
   , ((modMask, xK_p),

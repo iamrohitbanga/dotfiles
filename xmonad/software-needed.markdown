@@ -16,3 +16,7 @@ https://github.com/marioortizmanero/polybar-pulseaudio-control/
 https://github.com/xintron/xmonad-log
 
 7. Rofi
+
+8. Nerd Fonts
+
+9. XScreensaver (for locking the screen).
