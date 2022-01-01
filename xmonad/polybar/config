@@ -319,8 +319,8 @@ date = "%Y-%m-%d"
 date-alt = " %Y-%m-%d"
 
 ; toggle between showing seconds, and not
-time = %H:%M
-time-alt = %H:%M:%S
+time = "%H:%M"
+time-alt = "%H:%M:%S"
 
 format = 🕓 <label>
 ; format-background = #55ff3399
@@ -328,6 +328,7 @@ format = 🕓 <label>
 
 format-prefix-foreground = #FFFFFF
 format-underline = #0a6cf5
+label-padding-right = 3
 
 
 ; Available tokens:
