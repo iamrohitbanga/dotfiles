@@ -34,7 +34,7 @@ background-alt = #444
 foreground = #dfdfdf
 foreground-alt = #a8dcff
 primary = #ffb52a
-secondary = #e60053
+secondary = #ffbaba
 alert = #bd2c40
 
 [bar/mybar]
@@ -71,13 +71,16 @@ font-1 = "Font Awesome 5 Free Regular:style=Regular:pixelsize=12;1"
 font-2 = "Font Awesome 5 Brands Regular:style=Regular:pixelsize=12;1"
 font-3 = "Font Awesome 5 Free Solid:style=Solid:pixelsize=12;1"
 font-4 = "Noto Sans Symbols2:style=Regular:pixelsize=12;1"
+font-5 = "3270Narrow Nerd Font:style=Medium:pixelsize=12;1"
+font-6 = "3270SemiNarrow Nerd Font Mono:style=Medium:pixelsize=12;1"
+font-7 = " 3270Medium Nerd Font Mono:style=Medium:pixelsize=12;1:pixelsize=12;1"
 
 ; font-1 = ":pixelsize=12;1"
 ;font-1 = "Noto Color Emoji:Style=Regular:pixelsize=2;1"
 ;font-1 = "Symbola:Style=Regular:pixelsize=12;1"
 modules-left = xmonad xwindow
 modules-center = cpu memory
-modules-right = pulseaudio-control powermenu xkeyboard battery temperature date
+modules-right = pulseaudio-control xkeyboard battery temperature date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -229,7 +232,7 @@ label-song-ellipsis = true
 [module/xbacklight]
 type = internal/xbacklight
 
-format = <label> 
+format = <label>
 label = %percentage%%
 
 bar-width = 10
@@ -294,7 +297,7 @@ ramp-signal-4 = 🌣
 
 ;[module/eth]
 ;type = internal/network
-;interface = 
+;interface =
 ;interval = 3.0
 ;
 ;format-connected-underline = #55aa55
@@ -539,7 +542,6 @@ format-disconnected =
 ;
 ;label = %date% %time%
 
-
 [module/powermenu]
 type = custom/menu
 
@@ -547,27 +549,57 @@ expand-right = true
 
 format-spacing = 1
 
-label-open = ""
+label-open = "⏻  "
 label-open-foreground = ${colors.secondary}
-label-close = " cancel"
+label-close = "cancel  "
 label-close-foreground = ${colors.secondary}
-label-separator = "|"
+label-separator = "|  "
 label-separator-foreground = ${colors.foreground-alt}
 
-menu-0-0 = reboot
+menu-0-0 = " "
 menu-0-0-exec = menu-open-1
-menu-0-1 = power off
+menu-0-1 = "⏹"
 menu-0-1-exec = menu-open-2
+menu-0-2 = "⏸"
+menu-0-2-exec = menu-open-3
 
-menu-1-0 = cancel
-menu-1-0-exec = menu-open-0
-menu-1-1 = reboot
-menu-1-1-exec = sudo reboot
+menu-1-0 = reboot
+menu-1-0-exec = reboot
 
 menu-2-0 = power off
-menu-2-0-exec = sudo poweroff
-menu-2-1 = cancel
-menu-2-1-exec = menu-open-0
+menu-2-0-exec = poweroff
+
+menu-3-0 = suspend
+menu-3-0-exec = systemctl suspend
+
+; [module/powermenu]
+; type = custom/menu
+;
+; expand-right = true
+;
+; format-spacing = 1
+;
+; label-open = ""
+; label-open-foreground = ${colors.secondary}
+; label-close = " cancel"
+; label-close-foreground = ${colors.secondary}
+; label-separator = "|"
+; label-separator-foreground = ${colors.foreground-alt}
+;
+; menu-0-0 = reboot
+; menu-0-0-exec = menu-open-1
+; menu-0-1 = power off
+; menu-0-1-exec = menu-open-2
+;
+; menu-1-0 = cancel
+; menu-1-0-exec = menu-open-0
+; menu-1-1 = reboot
+; menu-1-1-exec = sudo reboot
+;
+; menu-2-0 = power off
+; menu-2-0-exec = sudo poweroff
+; menu-2-1 = cancel
+; menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true
