@@ -6,6 +6,8 @@ import System.IO
 import System.Exit
 import XMonad
 import XMonad.Hooks.DynamicLog
+import XMonad.Actions.CycleWS
+import XMonad.Actions.SwapWorkspaces
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
@@ -23,7 +25,7 @@ import XMonad.Layout.Grid
 import XMonad.Util.NamedWindows (getName)
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
-import Control.Monad (join)
+import Control.Monad
 import Data.List (sortBy)
 import Data.Function (on)
 
@@ -309,19 +311,92 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   ]
   ++
 
-  -- mod-[1..9], Switch to workspace N
-  -- mod-shift-[1..9], Move client to workspace N
-  [((m .|. modMask, k), windows $ f i)
-      | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-      , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-  ++
 
-  -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
-  -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-  [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-      | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
-      , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+    -------------------------------------------------------------------
+    -- ctrl+[1 .. ], Switch to workspace N
+    -- ctrl+shift+[1 .. ], View to workspace N
+    -- meta+[1 .. ], Move client to workspace N and follow
+    -- meta+shift+[1 .. ], Move client to workspace N
+    -- alt+[1 .. ], Swap with workspace N and follow
+    -- alt+shift+[1 .. ], Swap with workspace N
+    [ ((m, k), windows $ f i)
+        | (i, k) <- zip (workspaces conf) workspaceKeys
+        , (f, m) <- [ (W.greedyView                   , mod4Mask)
+                    -- , (W.view                         , mod4Mask .|. shiftMask)
+                    , (liftM2 (.) W.greedyView W.shift, controlMask .|. mod4Mask)
+                    -- , (W.shift                        , controlMask .|. mod4Mask .|. shiftMask)
+                    , (swapWithCurrent                , controlMask .|. mod4Mask .|. shiftMask)
+                    -- , (silentSwapWithCurrent          , mod1Mask .|. shiftMask)
+                    ]
+    ]
+    ++
 
+    -------------------------------------------------------------------
+    -- ctrl+meta+F[1 .. ], Switch to screen N
+    -- ctrl+meta+shift+F[1 .. ], Move client to screen N
+    -- alt+meta+F[1 .. ], Swap with screen N and follow
+    -- alt+meta+shift+F[1 .. ], Swap with screen N
+    -- [ ((m, k), screenWorkspace i >>= flip whenJust (windows . f))
+    --     | (i, k) <- zip [0 .. ] workspaceKeys
+    --     , (f, m) <- [ (W.view               , controlMask .|. mod4Mask)
+    --                 , (W.shift              , controlMask .|. mod4Mask .|. shiftMask)
+    --                 , (swapWithCurrent      , mod1Mask .|. mod4Mask)
+    --                 , (silentSwapWithCurrent, mod1Mask .|. mod4Mask .|. shiftMask)
+    --                 ]
+    -- ]
+    -- ++
+
+    -------------------------------------------------------------------
+    -- ctrl+alt+[left,right], Switch to workspace to the left or right
+    -- meta+[left,right], Move window to left or right and follow
+    -- meta+shift+[left,right], Move window to left or right
+    -- alt+meta+[left,right], Swap with workspace to left or right and follow
+    -- alt+meta+shift+[left,right], Swap with workspace to left or right
+    [ ((m, xK_Left ), c)
+        | (c, m) <- [ (prevWS               , controlMask .|. mod1Mask)
+                    , (shiftToPrev >> prevWS, controlMask .|. mod4Mask)
+                    -- , (shiftToPrev          , mod4Mask .|. shiftMask)
+                    , (swapTo Prev          , controlMask .|. mod4Mask .|. shiftMask)
+                    -- , (swapTo Prev >> nextWS, mod1Mask .|. mod4Mask .|. shiftMask)
+                    ]
+    ]
+    ++
+    [ ((m, xK_Right), c)
+        | (c, m) <- [ (nextWS               , controlMask .|. mod1Mask)
+                    , (shiftToNext >> nextWS, controlMask .|. mod4Mask)
+                    -- , (shiftToNext          , mod4Mask .|. shiftMask)
+                    , (swapTo Next          , controlMask .|. mod4Mask .|. shiftMask)
+                    -- , (swapTo Next >> prevWS, mod1Mask .|. mod4Mask .|. shiftMask)
+                    ]
+    ]
+    -- ++
+
+    -- -------------------------------------------------------------------
+    -- -- ctrl+alt+[up,down], Switch to next/previous screen
+    -- -- meta+[up,down], Move window to next/previous screen and follow
+    -- -- meta+shift+[up,down], Move window to next/previous screen
+    -- -- alt+meta+[up,down], Swap with next/previous screen and follow
+    -- -- alt+meta+shift+[up,down], Swap with next/previous screen
+    -- [ ((m, xK_Up   ), c)
+    --     | (c, m) <- [ (prevScreen                   , controlMask .|. mod1Mask)
+    --                 , (shiftPrevScreen >> prevScreen, mod4Mask)
+    --                 , (shiftPrevScreen              , mod4Mask .|. shiftMask)
+    --                 , (swapPrevScreen >> nextScreen , mod1Mask .|. mod4Mask)
+    --                 , (swapPrevScreen               , mod1Mask .|. mod4Mask .|. shiftMask)
+    --                 ]
+    -- ]
+    -- ++
+    -- [ ((m, xK_Down ), c)
+    --     | (c, m) <- [ (nextScreen                   , controlMask .|. mod1Mask)
+    --                 , (shiftNextScreen >> nextScreen, mod4Mask)
+    --                 , (shiftNextScreen              , mod4Mask .|. shiftMask)
+    --                 , (swapNextScreen >> prevScreen , mod1Mask .|. mod4Mask)
+    --                 , (swapNextScreen               , mod1Mask .|. mod4Mask .|. shiftMask)
+    --                 ]
+    -- ]
+        where
+            workspaceKeys = [xK_1 .. xK_F9]
+            silentSwapWithCurrent i w = W.view (W.currentTag w) $ swapWithCurrent i w
 
 ------------------------------------------------------------------------
 -- Mouse bindings
@@ -398,10 +473,10 @@ eventLogHookForPolyBar = do
     title <- maybe (return "") (fmap show . getName) . W.peek $ winset
     let currWs = W.currentTag winset
     let wss = map W.tag $ W.workspaces winset
-    
+
     io $ appendFile "/tmp/.xmonad-title-log" (title ++ "\n")
     io $ appendFile "/tmp/.xmonad-workspace-log" (wsStr currWs wss ++ "\n")
-    
+
     where
       fmt currWs ws
             | currWs == ws = "[" ++ ws ++ "]"
@@ -436,7 +511,7 @@ dbusOutput dbus str = do
 --     dbus <- D.connectSession
 --     D.requestName dbus (D.busName_ "org.xmonad.Log")
 --         [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
--- 
+--
 --     -- xmproc <- spawnPipe "/usr/bin/xmobar ~/.xmonad/xmobar.hs"
 --     xmonad . ewmh $ defaults {
 --           handleEventHook = docksEventHook
