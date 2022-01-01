@@ -352,18 +352,18 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- meta+shift+[left,right], Move window to left or right
     -- alt+meta+[left,right], Swap with workspace to left or right and follow
     -- alt+meta+shift+[left,right], Swap with workspace to left or right
-    [ ((m, xK_Left ), c)
-        | (c, m) <- [ (prevWS               , controlMask .|. mod1Mask)
-                    , (shiftToPrev >> prevWS, controlMask .|. mod4Mask)
+    [ ((m, xK_h ), c)
+        | (c, m) <- [ (prevWS               , controlMask .|. mod4Mask)
+                    , (shiftToPrev >> prevWS, controlMask .|. mod1Mask)
                     -- , (shiftToPrev          , mod4Mask .|. shiftMask)
                     , (swapTo Prev          , controlMask .|. mod4Mask .|. shiftMask)
                     -- , (swapTo Prev >> nextWS, mod1Mask .|. mod4Mask .|. shiftMask)
                     ]
     ]
     ++
-    [ ((m, xK_Right), c)
-        | (c, m) <- [ (nextWS               , controlMask .|. mod1Mask)
-                    , (shiftToNext >> nextWS, controlMask .|. mod4Mask)
+    [ ((m, xK_l), c)
+        | (c, m) <- [ (nextWS               , controlMask .|. mod4Mask)
+                    , (shiftToNext >> nextWS, controlMask .|. mod1Mask)
                     -- , (shiftToNext          , mod4Mask .|. shiftMask)
                     , (swapTo Next          , controlMask .|. mod4Mask .|. shiftMask)
                     -- , (swapTo Next >> prevWS, mod1Mask .|. mod4Mask .|. shiftMask)
