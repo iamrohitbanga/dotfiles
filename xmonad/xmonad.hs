@@ -23,6 +23,7 @@ import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Layout.IM
 import XMonad.Layout.Grid
 import XMonad.Util.NamedWindows (getName)
+import XMonad.Actions.GridSelect
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 import Control.Monad
@@ -199,6 +200,9 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- That is, take a screenshot of everything you see.
   , ((modMask .|. controlMask .|. shiftMask, xK_p),
      spawn "screenshot")
+
+  , ((mod4Mask, xK_s),
+     goToSelected defaultGSConfig)
 
   , ((modMask, xK_y), spawn $ "polybar-msg cmd toggle" )
 
