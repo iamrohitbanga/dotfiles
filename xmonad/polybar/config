@@ -79,8 +79,8 @@ font-7 = " 3270Medium Nerd Font Mono:style=Medium:pixelsize=12;1:pixelsize=12;1"
 ;font-1 = "Noto Color Emoji:Style=Regular:pixelsize=2;1"
 ;font-1 = "Symbola:Style=Regular:pixelsize=12;1"
 modules-left = xmonad xwindow
-modules-center = cpu memory
-modules-right = pulseaudio-control xkeyboard battery temperature date powermenu
+modules-center =
+modules-right = pulseaudio-control cpu memory xkeyboard battery temperature date powermenu
 
 tray-position = right
 tray-padding = 2
