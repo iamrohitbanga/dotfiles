@@ -181,6 +181,10 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_w),
      spawn $ "rofi -show window -theme /usr/share/rofi/themes/Paper.rasi")
 
+  -- Open firefox
+  , ((mod4Mask, xK_f),
+     spawn $ "firefox")
+
   -- Use this to open file explorer
   , ((mod4Mask, xK_e),
      spawn $ "nautilus --no-desktop --browser")
