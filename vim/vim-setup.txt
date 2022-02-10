@@ -1,0 +1,59 @@
+1. Install vim from source with ruby and python support.
+Ensure that latest ruby and python 3 are installed and available on path.
+
+https://github.com/vim/vim
+
+https://github.com/ycm-core/YouCompleteMe/wiki/Building-Vim-from-source
+
+Make sure Python3 is available on the system and is compiled with --enable-shared and --enable-optimizations.
+```
+cd ~
+git clone https://github.com/vim/vim.git
+cd vim
+./configure --with-features=huge \
+            --enable-multibyte \
+            --enable-rubyinterp=yes \
+            --enable-python3interp=yes \
+            --with-python3-config-dir=$(python3-config --configdir) \
+            --enable-perlinterp=yes \
+            --enable-luainterp=yes \
+            --enable-gui=gtk2 \
+            --enable-cscope \
+            --prefix=/usr/local
+
+
+
+make VIMRUNTIMEDIR=/usr/local/share/vim/vim82
+```
+
+Encountered this: https://github.com/vim/vim/issues/3557
+May need to install sudo yum install perl-ExtUtils-ParseXS
+or
+Disable perl support.
+
+2. Ensure that newly installed vim is available on $PATH.
+
+3. Copy over vimrc. Ensure that default ycm config is defined: let g:ycm_global_ycm_extra_conf = '...'.
+
+4. Install Vundle and vim-plug by following the instructiions on:
+   https://github.com/VundleVim/Vundle.vim
+   https://github.com/junegunn/vim-plug
+   This sets up the basic plugin stuff.
+
+5. Install plugins using commands :BundleInstall and :PluginInstall.
+
+6. Install YouCompleteMe and Command-T by installing required dependencies
+   like g++ and also compiling the C-extensions as required.
+
+7. Install cscope vim file following instructions here.
+   http://cscope.sourceforge.net/cscope_vim_tutorial.html
+   Update cscope plugin file to not set cscopetag. cscope tag search does not work well across multiple projects.
+   Better to use basic ctags there and use cscope for symbol usage search.
+   Also comment out cscopeverbose setting from cscope_maps.vim file.
+
+8. Install CtrlP following instructions here:
+   http://ctrlpvim.github.io/ctrlp.vim/#installation
+   CtrlP fuzzy tag search can be slow. Install python based plugin using Vundle.
+   vimrc already contains vundle instructions for installing the plugin.
+   Run :PluginInstall to install required plugins.
+

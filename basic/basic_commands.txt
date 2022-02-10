@@ -1,0 +1,17 @@
+
+* sudo yum install vim
+
+* sudo yum install git
+
+* sudo timedatectl set-timezone UTC
+
+* sudo yum install gcc
+
+* sudo yum install g++
+
+* sudo yum install make
+
+* sudo yum install cmake
+
+* Install h264 support for firefox:
+https://forums.fedoraforum.org/showthread.php?317721-fedora-28-and-firefox-video(h264-youtube-gstreamer1)

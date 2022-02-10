@@ -1,0 +1,5 @@
+1. Install build-essential
+	sudo apt-get install build-essential
+
+2. lm-sensors
+	sudo apt-get install lm-sensors

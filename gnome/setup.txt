@@ -1,0 +1,58 @@
+1. Install system-monitor extension from Ubuntu Software Manager.
+   http://ubuntuhandbook.org/index.php/2019/03/display-cpu-memory-network-usage-in-ubuntu-18-04-panel/
+
+2. Set a keyboard shortcut for Gnome-terminal
+   Ctrl + Alt + T -> gnome-terminal --maximize
+
+3. Basic Git config
+    git config --global user.name "Rohit Banga"
+    git config --global user.email iamrohitbanga@gmail.com
+
+4. Gnome terminal color scheme
+   * Allow scrolling to 1_000_000 lines in gnome-terminal
+
+   * Setup Gnome terminal as login shell
+     https://github.com/chriskempson/base16-gnome-terminal/issues/12
+
+   * Disable "Use transparency from System Theme in Gnome profile preferences"
+
+   * Setup base16 shell
+     https://github.com/chriskempson/base16-shell
+
+   # DO NOT USE BEHAVIOR NOT GOOD
+   * https://github.com/aaron-williamson/base16-gnome-terminal
+     git clone https://github.com/aaron-williamson/base16-gnome-terminal.git ~/.config/base16-gnome-terminal
+     .config/base16-gnome-terminal/color-scripts/base16-default-dark.sh
+
+5. vim color scheme
+   https://github.com/chriskempson/base16-vim
+   Bug right now: https://github.com/chriskempson/base16-vim/issues/201 
+   Temporary Fix here: https://github.com/danielwe/base16-vim
+
+6. Auto-Hide the dock in settings. Adjust icon size for dock. Pin relevant apps to dock. Adjust the order of items in the dock.
+
+7. Install Vimium firefox / chrome extension.
+
+8. Install gnome-shell extension to firefox.
+
+9. If you see error about host connector not running, when trying to install gnome extensions from browser, then follow the
+   instructions here:
+   https://askubuntu.com/questions/1107848/although-gnome-shell-integration-extension-is-running-native-host-connector-is
+   Sample error here:
+   "Although GNOME Shell integration extension is running, native host connector is not detected"
+
+10. Install ffmpeg to play videos in firefox.
+    https://support.mozilla.org/en-US/questions/1317085
+
+11. Install Workspace Matrix extension and configure number of workspaces required. Also update keyboard shortcuts to move between workspaces.
+    Use dconf-editor if some customizations do not show up in the keyboard shortcuts configuration application.
+    For example
+    gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-up "['<Ctrl><Super>k']"
+    gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-down "['<Ctrl><Super>j']"
+
+
+12. Enable battery percentage.
+
+13. Update gnome terminal profiles to disable terminal bell.
+
+14. 

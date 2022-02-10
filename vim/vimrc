@@ -1,0 +1,233 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" Set up Vundle: https://github.com/VundleVim/Vundle.vim
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" install YCM: https://github.com/ycm-core/YouCompleteMe
+Plugin  'ycm-core/YouCompleteMe'
+
+" Command-T plugin for file search: https://github.com/wincent/command-t
+Plugin 'wincent/command-t'
+
+" Tagbar - class outline viewer: https://github.com/preservim/tagbar
+Plugin 'preservim/tagbar'
+
+" CtrlP fast macher: https://github.com/FelikZ/ctrlp-py-matcher
+Plugin 'FelikZ/ctrlp-py-matcher'
+
+" Base16 color scheme for vim
+Plugin 'chriskempson/base16-vim'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" vim-plug configuration https://github.com/junegunn/vim-plug
+" Specify a directory for plugins
+" - For Neovim: stdpath('data') . '/plugged'
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" https://github.com/preservim/nerdtree
+Plug 'preservim/nerdtree'
+
+" Initialize plugin system
+call plug#end()
+
+" vim-autotag automatically updates ctags
+" https://github.com/craigemery/vim-autotag
+" ctags -a only changes existing entries, adds new ones but does not delete.
+" This plugin automatically reruns tag file updates for specific file being
+" saved.
+Bundle 'craigemery/vim-autotag'
+
+"-------------------------------------------------------------------------------
+"-------------------------------------------------------------------------------
+
+"-------------------------------------------------------------------------------
+" NerdTree configuration
+" Open new nerd tree pane
+map <C-n> :NERDTreeToggle<CR>
+
+" Open Nerd Tree automatically on start up
+" autocmd vimenter * NERDTree
+"-------------------------------------------------------------------------------
+
+"-------------------------------------------------------------------------------
+
+let mapleader = ","     " much easier to access the , key than the default \ for leader
+
+"-------------------------------------------------------------------------------
+
+
+"-------------------------------------------------------------------------------
+" YouCompleteMe configuration
+" https://github.com/ycm-core/YouCompleteMe/blob/master/doc/youcompleteme.txt
+
+" https://github.com/ycm-core/YouCompleteMe/issues/662
+" disable loading YCM on startup
+let g:loaded_youcompleteme = 1
+
+" disable confirmation to load conf file on startup
+let g:ycm_confirm_extra_conf = 0
+
+let g:ycm_global_ycm_extra_conf = '~/bin/ycm_extra_conf.py'
+
+" disable syntastic checks using clang
+" https://github.com/ycm-core/YouCompleteMe/commit/bc4e7fb8507982d014ecf825ce3c523fe007b043
+" https://vi.stackexchange.com/questions/7894/how-to-disable-youcompletemes-error-checking
+let g:ycm_show_diagnostics_ui = 0
+let g:ycm_register_as_syntastic_checker = 0 " off if diagnostics UI is off
+
+" disable auto hover                                                                                                                                                         
+let g:ycm_auto_hover=''
+" use shortcut to see method documentation instead
+nmap <leader>d <plug>(YCMHover)
+
+"-------------------------------------------------------------------------------
+
+" use ycm goto file, seems to work better than vim gf command
+" nnoremap <leader>gf :YcmCompleter GoToInclude<CR>
+
+"ctags related configuration
+
+" open ctag in tab/vertical split
+map <leader><C-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+map <leader><C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+
+" set multiple tag files
+" for some reason using $HOME does not work for some ctags systems, so use ~
+" autocmd BufRead,BufNewFile /path/to/project/* set tags=
+"   \...
+"   \...
+
+" autocmd BufRead,BufNewFile /path/to/project/* cscope add
+
+"-------------------------------------------------------------------------------
+
+"-------------------------------------------------------------------------------
+"cscope related configuration
+
+" refresh cscope database
+" https://stackoverflow.com/a/18983887/161628
+" -b = Build cross-reference only. -R = Recurse subdirectories during search for source files.
+map <F4> :!cscope -Rb<CR>:cs reset<CR><CR>
+
+" use relative path for cscope when loading multiple cscope databases
+" https://stackoverflow.com/a/29604533/161628
+set cscoperelative
+
+"-------------------------------------------------------------------------------
+"Tagbar related configuration
+" Use :TagbarDebug to debug this plugin. https://github.com/preservim/tagbar/issues/55
+
+" When tagbar uses a cache file, for some reason the file is not created and
+" ctags fails when it is installed using snap: https://github.com/preservim/tagbar/issues/568
+let g:tagbar_use_cache = 0
+
+" Single key shortcut to access class definitions
+nmap <F8> :TagbarToggle<CR>
+
+"-------------------------------------------------------------------------------
+" CtrlP plugin installed using http://ctrlpvim.github.io/ctrlp.vim/#installation
+
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+nnoremap <leader>. :CtrlPTag<cr>
+
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+
+"-------------------------------------------------------------------------------
+
+"-------------------------------------------------------------------------------
+"-------------------------------------------------------------------------------
+
+set autoindent
+set smartindent
+set nocompatible
+set ts=4
+set expandtab 
+set shiftwidth=4
+set softtabstop=4
+set smarttab
+set showmatch
+set number
+set vb t_vb=
+set ruler
+
+set hlsearch  " highlight search
+set incsearch " incremental search
+
+set ignorecase
+set smartcase
+set wrap
+set wildmode=longest,list,full
+set wildmenu
+
+" enable mouse in debug mode
+set mouse=a
+
+set encoding=utf-8
+
+syntax enable
+
+" https://vim.fandom.com/wiki/Toggle_auto-indenting_for_code_paste#Paste_toggle
+set pastetoggle=<F5>
+
+" https://github.com/chriskempson/base16-vim
+
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
+" Remember line number https://askubuntu.com/questions/202075/how-do-i-get-vim-to-remember-the-line-i-was-on-when-i-reopen-a-file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+endif
+
+set cursorline          " highlight current line
+set matchpairs+=<:>     " specially for html
+
+set history=150         " keep more lines of command history
+
+" set mouse=v             " use mouse in visual mode (not normal,insert,command,help mode
+
+set backspace=indent,eol,start   " allow backspace in insert mode
+
+" Insert new line without entering insert mode: https://vim.fandom.com/wiki/Insert_newline_without_entering_insert_mode
+nmap <S-Enter> O<Esc>
+nmap <CR> o<Esc>
+
+" Disable scratch preview window when auto-completing
+" https://stackoverflow.com/questions/15962421/how-can-i-disable-scratch-preview-window
+set completeopt-=preview
+
+"-------------------------------------------------------------------------------
+" vim Termdebug mode
+" vim 8.2 onwards supports terminal and gdb inside vim: https://www.dannyadam.com/blog/2019/05/debugging-in-vim/
+
+packadd termdebug
+
+" Map keyboard shortcut to open gdb
+" https://stackoverflow.com/a/58788529/161628
+" Resize window immediately
+autocmd filetype cc,cpp,h,c nnoremap <F6> :Termdebug <CR><C-\><C-N>:exe "resize " . (winheight(0) * 19/10)<CR>i
+
+" https://stackoverflow.com/a/61647406/161628
+let g:termdebug_wide=1
+
+"-------------------------------------------------------------------------------
+
+set shiftwidth=4
+
+let g:ruby_recommended_style = 0
+
+set tabpagemax=30
