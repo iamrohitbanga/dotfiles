@@ -1,0 +1,14 @@
+1. Install using https://github.com/postmodern/ruby-install
+
+2. Configure Chruby https://github.com/postmodern/chruby
+
+3. irbrc
+
+4. Important Gems
+   - awesome_print
+   - aws-sdk
+   - oj
+   - ox
+   - xsel
+   - bundler
+

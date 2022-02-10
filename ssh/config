@@ -1,0 +1,7 @@
+Host *
+    StrictHostKeyChecking no # depends on usecase
+    ForwardAgent yes
+    ServerAliveInterval 50
+    IdentityFile ~/.ssh/id_rsa
+    UserKnownHostsFile=/dev/null
+
