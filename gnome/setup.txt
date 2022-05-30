@@ -24,3 +24,9 @@
 * Enable battery percentage.
 
 * Update gnome terminal profiles to disable terminal bell.
+
+* Set desktop wallpaper to solid color:
+  ```
+	gsettings set org.gnome.desktop.background picture-uri ''
+	gsettings set org.gnome.desktop.background primary-color '#000000'
+  ```
