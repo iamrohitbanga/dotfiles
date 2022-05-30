@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+echo -n "base16-gruvbox-light-soft" > "$HOME"/.term_background

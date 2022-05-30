@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+echo -n "base16-chalk" > "$HOME"/.term_background
