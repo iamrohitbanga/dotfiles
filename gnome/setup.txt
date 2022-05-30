@@ -27,8 +27,22 @@
 
 * Set desktop wallpaper to solid color:
   ```
-	gsettings set org.gnome.desktop.background picture-uri ''
-	gsettings set org.gnome.desktop.background primary-color '#000000'
+    gsettings set org.gnome.desktop.background picture-uri ''
+    gsettings set org.gnome.desktop.background primary-color '#000000'
   ```
 
 * Set keyboard shortcuts to switch to workspace to left or right.
+
+* Ensure Noto Fonts installed. Can look for ways to install google noto fonts.
+
+* Install Gnome Tweaks app, and choose an appropriate monospace font for terminal.
+  * Adjust hinting and anti-aliasing for fonts using this app.
+
+* Change visible columns in Nautilus File Explorer to show hidden files, file type, file modification time,
+  compact view, permissions etc.
+
+* Ensure wayland used:
+  ```
+    loginctl
+    loginctl show-session <SESSION_ID> -p Type
+  ```
