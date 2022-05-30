@@ -60,3 +60,6 @@
 ```
 sudo dnf install vlc -y
 ```
+
+* Install Clipboard manager gnome shell extension:
+https://extensions.gnome.org/extension/779/clipboard-indicator/
