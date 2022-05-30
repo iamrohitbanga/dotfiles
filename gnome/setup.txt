@@ -30,3 +30,5 @@
 	gsettings set org.gnome.desktop.background picture-uri ''
 	gsettings set org.gnome.desktop.background primary-color '#000000'
   ```
+
+* Set keyboard shortcuts to switch to workspace to left or right.
