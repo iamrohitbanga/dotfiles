@@ -5,3 +5,4 @@
 * Font - Use nerdfont.
 * Menu - rofi
 * Install pulseaudio, pavucontrol for waybar volume management.
+* Use blueman for bluetooth configuration.
