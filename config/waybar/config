@@ -142,7 +142,7 @@
         "format-wifi": "{essid} ({signalStrength}%) ",
         "format-ethernet": "{ipaddr}/{cidr} ",
         "tooltip-format": "{ifname} via {gwaddr} ",
-        "tooltip-format-wifi": "{essid} ({signalStrength}%) "",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
 		"tooltip-format-ethernet": "{ifname} ",
         "tooltip-format-disconnected": "Disconnected",
         "format-linked": "{ifname} (No IP) ",
