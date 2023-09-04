@@ -15,7 +15,7 @@ set $right l
 
 set $lock ~/.config/sway/lock.sh
 
-set $power rofi -show power-menu -modi power-menu:~/.local/bin/rofi-power-menu
+# set $power rofi -show power-menu -modi power-menu:~/.local/bin/rofi-power-menu
 
 # no need for custom wifi rofi menu
 # set $wifi ~/.config/rofi/modi/nmcli
@@ -263,6 +263,12 @@ bindsym $mod+r mode "resize"
 bar {
     swaybar_command waybar
 }
+
+# Notifications https://github.com/ErikReider/SwayNotificationCenter
+exec /usr/bin/swaync
+
+# Toggle control center
+bindsym $mod+Shift+n exec /usr/bin/swaync-client -t -sw
 
 # Small title bar
 default_border pixel 3
