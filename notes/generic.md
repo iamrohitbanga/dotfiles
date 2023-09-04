@@ -15,11 +15,11 @@ $ loginctl show-session <SESSION_ID> -p Type
 * [base16-shell](https://github.com/chriskempson/base16-shell)
 
 * Ruby
-** [ruby-install](https://github.com/postmodern/ruby-install)
-** [chruby](https://github.com/postmodern/chruby)
-** Important gems
-*** awesome_print
-*** oj 
-*** ox
-*** xsel
-*** bundler
+  * [ruby-install](https://github.com/postmodern/ruby-install)
+  * [chruby](https://github.com/postmodern/chruby)
+  * Important gems
+    * awesome_print
+    * oj
+    * ox
+    * xsel
+    * bundler
