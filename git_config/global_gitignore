@@ -1,0 +1,9 @@
+tags
+cscope.out
+.ycm_extra_conf.py
+*.swp
+*.iml
+.classpath
+.factorypath
+.project
+.settings/
