@@ -1,0 +1,190 @@
+set nocompatible              "only required if loading vimrc files with `vim -u <...>` https://stackoverflow.com/a/22543937
+
+call plug#begin()
+
+" secure alternative to vim modelines
+Plug 'ypcrts/securemodelines'
+
+" sneak - search with just two characters
+Plug 'justinmk/vim-sneak'
+
+" base16 color themes in vim
+Plug 'chriskempson/base16-vim'
+
+Plug 'freddiehaddad/base16-nvim'
+
+" status line
+Plug 'itchyny/lightline.vim'
+
+" match language keywords using '%' like matchparen does for parenthesis
+Plug 'andymass/vim-matchup'
+
+" Fuzzy finder
+Plug 'airblade/vim-rooter'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+" Mason LSP management
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'simrat39/rust-tools.nvim'
+
+" Completion Framework
+Plug 'hrsh7th/nvim-cmp'
+
+" LSP completion source:
+Plug 'hrsh7th/cmp-nvim-lsp'
+
+
+" completion sources:
+Plug 'hrsh7th/cmp-nvim-lua'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/vim-vsnip'
+
+Plug 'nvim-treesitter/nvim-treesitter'
+
+call plug#end()
+
+let mapleader = ","     " much easier to access the , key than the default \ for leader
+
+" deal with colors
+if !has('gui_running')
+  set t_Co=256
+endif
+
+" taken from https://github.com/jonhoo/configs/blob/master/editor/.config/nvim/init.vim
+" Not sure if screen-condition is correct or not
+if (match($TERM, "-256color") == -1) && (match($TERM, "screen-256color") != -1)
+  " screen does not (yet) support truecolor
+  set termguicolors
+endif
+let g:base16_shell_path="~/.config/base16-shell/scripts/"
+
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
+
+"" set relativenumber " relative line numbers
+set number " show current absolute line
+
+"-------------------------------------------------------------------------------------------------------------------------------
+" general editor settings
+syntax on
+set encoding=utf-8
+set autoindent
+set smartindent
+
+" search
+set incsearch "incremental search
+set hlsearch " highlight search
+set ignorecase
+set smartcase " ignore 'ignorecase' if pattern contains upper case characters
+
+" sane splits
+set splitright
+set splitbelow
+set cursorline
+
+set tabstop=4
+set expandtab
+set shiftwidth=4
+set softtabstop=4
+set smarttab
+set showmatch " briefly jump to matching bracket
+set ruler " not as useful with lightline plugin, but keep it
+set wrap
+
+" Decent wildmenu
+set wildmenu
+set wildmode=longest,list,full
+set wildignore=.hg,.svn,*~,*.png,*.jpg,*.gif,*.settings,Thumbs.db,*.min.js,*.swp,publish/*,intermediate/*,*.o,*.hi,Zend,vendor
+
+" https://vim.fandom.com/wiki/Toggle_auto-indenting_for_code_paste#Paste_toggle
+set pastetoggle=<F5>
+
+set history=250         " keep more lines of command history
+
+" max number of tabs opened with -p
+set tabpagemax=30
+
+" this is likely not required after vim 8.0 https://stackoverflow.com/a/11560415
+set backspace=indent,eol,start
+
+" Insert new line without entering insert mode: https://vim.fandom.com/wiki/Insert_newline_without_entering_insert_mode
+nmap <S-Enter> O<Esc>
+nmap <CR> o<Esc>
+
+" more characters sent to terminal
+set ttyfast
+
+" Remember line number https://askubuntu.com/questions/202075/how-do-i-get-vim-to-remember-the-line-i-was-on-when-i-reopen-a-file
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+endif
+
+" uncomment if you want to enable mouse
+"set mouse=a
+set mouse=v " use mouse in visual mode
+
+"-------------------------------------------------------------------------------------------------------------------------------
+" lightline
+set laststatus=2
+set noshowmode
+
+let g:lightline = {
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified' ] ],
+      \   'right': [ [ 'lineinfo' ],
+      \              [ 'percent' ],
+      \              [ 'fileencoding', 'filetype' ] ],
+      \ },
+      \ 'component_function': {
+      \   'filename': 'LightlineFilename'
+      \ },
+      \ }
+function! LightlineFilename()
+  return expand('%:t') !=# '' ? @% : '[No Name]'
+endfunction
+
+"-------------------------------------------------------------------------------------------------------------------------------
+" sneak
+" enable next search with 's'
+let g:sneak#s_next = 1
+
+"-------------------------------------------------------------------------------------------------------------------------------
+" fzf
+map <C-p> :Files<CR>
+" <leader>s for Rg search
+noremap <leader>s :Rg 
+let g:fzf_layout = { 'down': '~20%' }
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+" install fd-find package, proximity-sort
+function! s:list_cmd()
+  let base = fnamemodify(expand('%'), ':h:.:S')
+  return base == '.' ? 'fdfind --type file --follow' : printf('fdfind --type file --follow | proximity-sort %s', shellescape(expand('%')))
+endfunction
+
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
+  \                               'options': '--tiebreak=index'}, <bang>0)
+
+"-------------------------------------------------------------------------------------------------------------------------------
+" lsp
+" always show sign colum, so gutter size does not change with lsp
+set signcolumn=yes
+
+lua require('init')
