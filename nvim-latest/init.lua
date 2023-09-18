@@ -151,15 +151,15 @@ require('lazy').setup({
     "rust-lang/rust.vim"
   },
 
-  -- {
-  --   -- Theme inspired by Atom
-  --   'navarasu/onedark.nvim',
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme 'onedark'
-  --   end,
-  -- },
-  --
+  {
+    -- Theme inspired by Atom
+    'navarasu/onedark.nvim',
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme 'onedark'
+    end,
+  },
+
 
   {
     -- Set lualine as statusline
@@ -167,7 +167,7 @@ require('lazy').setup({
     -- See `:help lualine.txt`
     opts = {
       options = {
-        theme = "onelight",
+        theme = "onedark",
         icons_enabled = false,
         component_separators = '|',
         section_separators = '',
@@ -251,53 +251,93 @@ local function readfile(path)
 end
 vim.o.guicursor = ""
 
+require('onedark').setup {
+    -- Main options --
+    style = 'dark', -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+    transparent = false,  -- Show/hide background
+    term_colors = true, -- Change terminal color as per the selected theme style
+    ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
+    cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
+
+    -- toggle theme style ---
+    toggle_style_key = nil, -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+    toggle_style_list = {'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light'}, -- List of styles to toggle between
+
+    -- Change code style ---
+    -- Options are italic, bold, underline, none
+    -- You can configure multiple style with comma separated, For e.g., keywords = 'italic,bold'
+    code_style = {
+        comments = 'italic',
+        keywords = 'none',
+        functions = 'none',
+        strings = 'none',
+        variables = 'none'
+    },
+
+    -- Lualine options --
+    lualine = {
+        transparent = false, -- lualine center bar transparency
+    },
+
+    -- Custom Highlights --
+    colors = {}, -- Override default colors
+    highlights = {}, -- Override highlight groups
+
+    -- Plugins Config --
+    diagnostics = {
+        darker = true, -- darker colors for diagnostic
+        undercurl = true,   -- use undercurl instead of underline for diagnostics
+        background = false,    -- use background color for virtual text
+    },
+}
+
 -- use contents of term_background to use the same base16 colorscheme as the terminal
-local term_backgound_path = vim.env.HOME .. "/.term_background"
-if vim.loop.fs_stat(term_backgound_path) then
-
-  local theme = readfile(term_backgound_path)
-  if theme == "base16-gruvbox-light-soft" then
-    -- Use the special gruvbox.nvim plugin instead of default base16
-    -- This plugin has better colors.
-    -- setup must be called before loading the colorscheme
-    -- Default options:
-    vim.o.background = "light"
-    require("gruvbox").setup({
-      undercurl = false,
-      underline = false,
-      bold = false,
-      italic = {
-        strings = false,
-        comments = false,
-        operators = false,
-        folds = true,
-      },
-      strikethrough = true,
-      invert_selection = false,
-      invert_signs = false,
-      invert_tabline = false,
-      invert_intend_guides = false,
-      inverse = true, -- invert background for search, diffs, statuslines and errors
-      contrast = "soft", -- can be "hard", "soft" or empty string
-      palette_overrides = {
-        faded_red = "#8f3f71",
-        faded_green = "#076678",
-        --faded_blue = "#5e5d5d",
-        --bright_purple = "#5e5d5d",
-        -- faded_aqua = "#ff0000",
-      },
-      overrides = {},
-      dim_inactive = false,
-      transparent_mode = false,
-    })
-    vim.cmd("colorscheme gruvbox")
-  else
-    vim.cmd('colorscheme ' .. readfile(term_backgound_path))
-  end
-
-else
-  vim.cmd('colorscheme base16-chalk')
-end
+-- local term_backgound_path = vim.env.HOME .. "/.term_background"
+-- if vim.loop.fs_stat(term_backgound_path) then
+-- 
+--   local theme = readfile(term_backgound_path)
+--   if theme == "base16-gruvbox-light-soft" then
+--     -- Use the special gruvbox.nvim plugin instead of default base16
+--     -- This plugin has better colors.
+--     -- setup must be called before loading the colorscheme
+--     -- Default options:
+--     vim.o.background = "light"
+--     require("gruvbox").setup({
+--       undercurl = false,
+--       underline = false,
+--       bold = false,
+--       italic = {
+--         strings = false,
+--         comments = false,
+--         operators = false,
+--         folds = true,
+--       },
+--       strikethrough = true,
+--       invert_selection = false,
+--       invert_signs = false,
+--       invert_tabline = false,
+--       invert_intend_guides = false,
+--       inverse = true, -- invert background for search, diffs, statuslines and errors
+--       contrast = "soft", -- can be "hard", "soft" or empty string
+--       palette_overrides = {
+--         faded_red = "#8f3f71",
+--         faded_green = "#076678",
+--         --faded_blue = "#5e5d5d",
+--         --bright_purple = "#5e5d5d",
+--         -- faded_aqua = "#ff0000",
+--       },
+--       overrides = {},
+--       dim_inactive = false,
+--       transparent_mode = false,
+--     })
+--     -- vim.cmd("colorscheme gruvbox")
+--   else
+--     -- vim.cmd('colorscheme ' .. readfile(term_backgound_path))
+--   end
+-- 
+-- else
+--     -- vim.cmd('colorscheme ' .. readfile(term_backgound_path))
+-- end
 
 -- Set highlight on search
 vim.o.hlsearch = true
