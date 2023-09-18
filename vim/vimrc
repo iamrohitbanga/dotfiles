@@ -27,6 +27,10 @@ call plug#end()
 let mapleader = ","     " much easier to access the , key than the default \ for leader
 
 if filereadable(expand("~/.vimrc_background"))
+  " Ideally we should set base16_shell_path, but it breaks in this way
+  " https://unix.stackexchange.com/questions/427274/how-to-fix-anoying-vim-terminal-behaviour-vim-produces-empty-lines-in-terminal
+  " let g:base16_shell_path="~/.config/base16-shell/scripts"
+
   let base16colorspace=256
   source ~/.vimrc_background
 endif
@@ -142,4 +146,3 @@ endfunction
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
   \                               'options': '--tiebreak=index'}, <bang>0)
-
