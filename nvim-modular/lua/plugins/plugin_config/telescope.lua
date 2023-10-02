@@ -31,7 +31,7 @@ function M.init()
         previewer = false,
       })
     end, { desc = '[/] Fuzzily search in current buffer' })
-    
+
     vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
     vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
     vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
@@ -44,14 +44,23 @@ end
 function M.config()
     -- See `:help telescope` and `:help telescope.setup()`
     require('telescope').setup {
-      defaults = {
-        mappings = {
-          i = {
-            ['<C-u>'] = false,
-            ['<C-d>'] = false,
-          },
+        defaults = {
+            mappings = {
+                i = {
+                    ['<C-u>'] = false,
+                    ['<C-d>'] = false,
+                },
+            },
+            path_display = {
+                shorten = { len = 5, exclude = {1, -1} }, -- path should fit in the floating window, include first and last component
+                -- smart = 1,
+                -- truncate = 1,
+            },
         },
-      },
+        pickers = {
+            -- make sure file names fit in the lsp_references floating telescope window
+            lsp_references = { fname_width = 50, show_line = false, trim_text = true, },
+        }
     }
 
     -- Enable telescope fzf native, if installed
