@@ -186,3 +186,7 @@ fi
 if [ -f $HOME/software/nvim/bin/nvim ]; then
     alias nvim=$HOME/software/nvim/bin/nvim
 fi
+
+alias nvimdiff="nvim -d"
+alias vi="nvim"
+alias vim="nvim"
