@@ -26,7 +26,7 @@ function M.config()
             comments = 'italic,bold',
             keywords = 'bold',
             functions = 'bold',
-            strings = 'bold',
+            strings = 'none',
             variables = 'none'
         },
 

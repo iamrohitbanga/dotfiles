@@ -3,5 +3,5 @@ return {
   -- stick with git cli for advanced git functionality
   'tpope/vim-fugitive',
   -- enabled = false,
-  lazy = false
+  lazy = true
 }
