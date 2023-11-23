@@ -79,7 +79,7 @@ function M.config()
     --  define the property 'filetypes' to the map in question.
     local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
         pyright = {},
         -- tsserver = {},
         -- html = { filetypes = { 'html', 'twig', 'hbs'} },
