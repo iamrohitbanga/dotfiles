@@ -30,6 +30,7 @@ set $term alacritty
 set $menu rofi -m $(expr $(swaymsg -t get_tree | jq '.nodes | map([recurse(.nodes[]?, .floating_nodes[]?) | .focused] | any) | index(true)') - 1) -show drun -run-command 'swaymsg exec -- {cmd}'
 
 input 1423:37904:KINESIS_FREESTYLE_KB800_KB800_Kinesis_Freestyle {
+    xkb_options caps:escape
     repeat_delay 170
     repeat_rate 75
 }
