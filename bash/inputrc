@@ -1,0 +1,6 @@
+# https://superuser.com/questions/601992/how-can-i-disable-that-display-all-possibilities-and-more-stuff-in-bash
+# Avoid annoying Display all 124 possibilities? style prompts
+set completion-query-items 3000
+set page-completions on
+set bell-style none
+
