@@ -1,0 +1,8 @@
+* Install Sway - https://swaywm.org/
+* Bar at the top - Waybar
+* Lock Screen - use swaylock or swaylock-effects (https://github.com/mortie/swaylock-effects/tree/master). swaylock-effects is recommended.
+* Install alacritty terminal.
+* Font - Use nerdfont.
+* Menu - rofi
+* Install pulseaudio, pavucontrol for waybar volume management.
+* Use blueman for bluetooth configuration.
