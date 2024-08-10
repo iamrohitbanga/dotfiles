@@ -117,7 +117,7 @@ fi
 # customize prompt using http://bashrcgenerator.com/
 # https://www.cyberciti.biz/faq/bash-shell-change-the-color-of-my-shell-prompt-under-linux-or-unix/
 if [ "$color_prompt" = yes ]; then
-    PS1='\[\033[01;34m\](\t)\[\033[00m\] \[\033[01;32m\]\u\[\033[00m\]@-\h \[\033[01;34m\]\w\[\033[00m\] \$ '
+    PS1='\[\033[01;34m\](\t)\[\033[00m\] \[\033[01;32m\]\u\[\033[00m\]@\h \[\033[01;34m\]\w\[\033[00m\] \$ '
 else
     PS1='(\T) \u@\h:\w\$ '
 fi
