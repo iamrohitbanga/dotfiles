@@ -6,7 +6,7 @@
 [core]
     pager = less -FMRiX
     excludesfile = /home/iamrohitbanga/.global_gitignore
-    editor = vim
+    editor = nvim
 [push]
     default = nothing
 [alias]
