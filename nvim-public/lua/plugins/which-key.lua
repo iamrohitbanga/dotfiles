@@ -7,34 +7,38 @@ local M = {
 function M.config()
     require("which-key").setup {
         plugins = {
-            marks = true,
-            registers = true,
+            marks = true, -- shows a list of your marks on ' and `
+            registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
+            -- the presets plugin, adds help for a bunch of default keybindings in Neovim
+            -- No actual key bindings are created
             spelling = {
-                enabled = false,
+                enabled = true, -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+                suggestions = 3, -- how many suggestions should be shown in the list?
             },
             presets = {
-                operators = false,
-                motions = false,
-                text_objects = false,
-                windows = true,
-                nav = true,
-                z = true,
-                g = true,
+                operators = true, -- adds help for operators like d, y, ...
+                motions = true, -- adds help for motions
+                text_objects = true, -- help for text objects triggered after entering an operator
+                windows = true, -- default bindings on <c-w>
+                nav = true, -- misc bindings to work with windows
+                z = true, -- bindings for folds, spelling and others prefixed with z
+                g = true, -- bindings for prefixed with g
             },
         },
-        operators = { gc = "Comments" },
-        key_labels = {},
         icons = {
             breadcrumb = "»",
             separator = "➜",
             group = "+",
+            ellipsis = "…",
         },
-        window = {
+        win = {
             border = "rounded",
-            position = "bottom",
-            margin = { 1, 0, 1, 0 },
+            title = true,
+            title_pos = "center",
             padding = { 1, 1, 1, 1 },
-            winblend = 0,
+            wo = {
+                winblend = 5, -- value between 0-100 0 for fully opaque and 100 for fully transparent
+            }
         },
         layout = {
             height = { min = 4, max = 25 },
@@ -42,14 +46,7 @@ function M.config()
             spacing = 3,
             align = "left",
         },
-        ignore_missing = false,
-        hidden = { "<silent>", "<cmd>", "<Cmd>", "<CR>", "call", "lua", "^:", "^ " },
         show_help = true,
-        triggers = "auto",
-        triggers_blacklist = {
-            i = { "j", "k" },
-            v = { "j", "k" },
-        },
     }
 end
 
