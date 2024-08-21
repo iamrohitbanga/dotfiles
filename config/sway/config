@@ -15,7 +15,7 @@ set $right l
 
 set $lock ~/.config/sway/lock.sh
 
-set $power rofi -show power-menu -modi power-menu:~/.local/bin/rofi-power-menu
+set $power rofi -show power-menu -modi power-menu:~/bin/rofi-power-menu
 
 # no need for custom wifi rofi menu
 # set $wifi ~/.config/rofi/modi/nmcli
