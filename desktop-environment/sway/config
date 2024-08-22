@@ -5,8 +5,10 @@
 
 ### Variables
 #
-# Logo key. Use Mod1 for Alt.
-set $mod Mod4
+# Alt key on PC keyboards = Mod1
+# Logo key on PC keyboards = Mod4
+
+set $mod Mod1
 # Home row direction keys, like vim
 set $left h
 set $down j
@@ -209,6 +211,7 @@ exec swayidle -w \
 
     # toggle different border types with / without title bars
     bindsym $mod+Ctrl+equal border toggle
+
 #
 # Scratchpad:
 #
